@@ -1,6 +1,11 @@
+using ExpenseTracker.Infastructure;
+using ExpenseTracker.Infastructure.Contracts;
+using ExpenseTracker.Infastructure.Repositories;
+using ExpenseTracker.InfructureSqlServre;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +36,14 @@ namespace ExpenseTracker.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ExpenseTracker.API", Version = "v1" });
             });
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(
+                Configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
+
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IExpenseCategoryRepository, ExpenseCategoryRepository>();
+            services.AddTransient<IExpenseRepository, ExpenseRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
