@@ -9,7 +9,6 @@ namespace ExpenseTracker.Infastructure.Contracts
 {
     public interface IExpenseRepository : IRepository<Expense>
     {
-        IEnumerable<Expense> getAllEnpenses();
-        
+
     }
 }

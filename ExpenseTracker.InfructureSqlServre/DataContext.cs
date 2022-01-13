@@ -14,11 +14,7 @@ namespace ExpenseTracker.InfructureSqlServre
         {
 
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    string connectionString = "Data Source=URANUS; Initial Catalog=ExpenseTracker; User Id=sa; Password=abcd123!";
 
-        //    optionsBuilder.UseSqlServer(connectionString);
         //}
         /// <summary>
         /// ExpenseCategories table.

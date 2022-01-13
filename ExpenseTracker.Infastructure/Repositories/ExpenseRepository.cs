@@ -13,15 +13,9 @@ namespace ExpenseTracker.Infastructure.Repositories
 {
     public class ExpenseRepository : Repository<Expense>, IExpenseRepository
     {
-        public ExpenseRepository(DataContext dcontext) : base(dcontext) 
+        public ExpenseRepository(DataContext context) : base(context)
         {
 
-        }
-
-        public IEnumerable<Expense> getAllEnpenses()
-        {
-            //return Expense.AsNoTracking().AsEnumerable();
-            return _context.Set<Expense>().AsQueryable().AsNoTracking().ToList();
         }
     }
 }

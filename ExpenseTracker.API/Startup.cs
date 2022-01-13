@@ -40,10 +40,10 @@ namespace ExpenseTracker.API
                 Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
 
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IExpenseCategoryRepository, ExpenseCategoryRepository>();
-            services.AddTransient<IExpenseRepository, ExpenseRepository>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IExpenseCategoryRepository, ExpenseCategoryRepository>();
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

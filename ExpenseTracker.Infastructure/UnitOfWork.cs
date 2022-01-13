@@ -12,14 +12,18 @@ namespace ExpenseTracker.Infastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private IExpenseCategoryRepository expenseCategoryRepository;
+        private IExpenseRepository expenseRepository;
         protected readonly DataContext dbcontext;
         public UnitOfWork(DataContext context)
         {
             this.dbcontext = context;
-
+        }
+        public void SaveChanges()
+        {
+            dbcontext.SaveChanges();
         }
 
-        private IExpenseCategoryRepository expenseCategoryRepository;
         public IExpenseCategoryRepository ExpenseCategoryRepository
         {
             get
@@ -30,11 +34,16 @@ namespace ExpenseTracker.Infastructure
                 return expenseCategoryRepository;
             }
         }
-        public IExpenseRepository ExpenseRepository { get; }
 
-        public void SaveChanges()
+        public IExpenseRepository ExpenseRepository
         {
-            dbcontext.SaveChanges();
+            get
+            {
+                if (expenseRepository == null)
+                    expenseRepository = new ExpenseRepository(dbcontext);
+
+                return expenseRepository;
+            }
         }
     }
 }

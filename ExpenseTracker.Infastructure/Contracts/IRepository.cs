@@ -51,7 +51,7 @@ namespace ExpenseTracker.Infastructure.Contracts
         /// Updates database table with the information available in the given object.
         /// </summary>
         /// <param name="entity">Object to be updated.</param>
-        void Update(T entity);  
+        T Update(T entity);
 
     }
 }

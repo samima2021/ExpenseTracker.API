@@ -5,42 +5,55 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/Expense")]
     public class ExpenseController : ControllerBase
     {
+
         private readonly IUnitOfWork _unitOfWork;
-        public ExpenseController(IUnitOfWork unitOfWork ,IRepository<Expense> expRepo)
+
+
+        public ExpenseController(IUnitOfWork unitOfWork, IRepository<Expense> expRepo)
         {
             _unitOfWork = unitOfWork;
+
         }
         [HttpGet]
         public IActionResult GetAll()
         {
             var expense = _unitOfWork.ExpenseRepository.GetAll();
-
+            return Ok(expense);
+        }
+        [HttpPost("delete")]
+        public IActionResult Delete([FromForm] int Id)
+        {
+            var expense = _unitOfWork.ExpenseRepository.Get(Id);
+            _unitOfWork.ExpenseRepository.Delete(expense);
+            _unitOfWork.SaveChanges();
+            return Ok();
+        }
+        [HttpGet("id")]
+        public IActionResult GET(int id)
+        {
+            var expense = _unitOfWork.ExpenseRepository.Get(id);
             return Ok(expense);
         }
 
         [HttpPost]
-        public IActionResult AddExpenseAndCategory()
+        public IActionResult SaveOrUpdate([FromBody] Expense expense)
         {
-
-            var Expense = new Expense
+            if (expense.ExpenseID == 0)
             {
-                Amount = 3400
-            };
-            var ExpenseCategory = new ExpenseCategory
+                var expenseAdd = _unitOfWork.ExpenseRepository.Add(expense);
+                _unitOfWork.SaveChanges();
+                return Ok(expenseAdd);
+            }
+            else
             {
-                CategoryName = "abc"
-            };
-            _unitOfWork.ExpenseRepository.Add(Expense);
-            _unitOfWork.ExpenseCategoryRepository.Add(ExpenseCategory);
-            _unitOfWork.SaveChanges();
-            return Ok();
+                var expenseUp = _unitOfWork.ExpenseRepository.Update(expense);
+                _unitOfWork.SaveChanges();
+                return Ok(expenseUp);
+            }
         }
-
-
-
     }
 }

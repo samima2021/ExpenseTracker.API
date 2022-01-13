@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTracker.InfructureSqlServre.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220111072023_abc")]
+    [Migration("20220113053632_abc")]
     partial class abc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

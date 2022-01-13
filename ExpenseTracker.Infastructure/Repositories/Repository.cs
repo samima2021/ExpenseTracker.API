@@ -30,7 +30,7 @@ namespace ExpenseTracker.Infastructure.Repositories
         }
 
 
-        public virtual  void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             try
             {
@@ -39,8 +39,8 @@ namespace ExpenseTracker.Infastructure.Repositories
             catch
             {
                 throw;
-            } 
-            
+            }
+
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>> predicate)
@@ -99,11 +99,12 @@ namespace ExpenseTracker.Infastructure.Repositories
             }
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             try
             {
-                _context.Set<T>().Update(entity);
+                return _context.Set<T>().Update(entity).Entity;
+
             }
             catch
             {
