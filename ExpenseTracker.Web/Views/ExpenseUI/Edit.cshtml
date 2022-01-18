@@ -1,0 +1,38 @@
+﻿@model ExpenseDTO
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+
+
+<div class=""container>
+    <div class="row">
+        <div class="col-md-4">
+           <form asp-action="Create" method="post">
+    <input type="hidden" asp-for="ExpenseID" />
+    <input asp-for="Amount" />
+    <input asp-for="ExpenseDate" />
+    <select asp-for="CategoryID">
+        <option value="0">
+            select One
+        </option>
+        @foreach (var item in Model.DropCategoryList)
+        {
+            <option value="@item.CategoryID">
+                @item.CategoryName
+            </option>
+        }
+
+    </select>
+              
+    <button type="submit">Save</button>
+</form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

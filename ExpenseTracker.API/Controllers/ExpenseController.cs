@@ -11,17 +11,17 @@ namespace ExpenseTracker.API.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
-
-
-        public ExpenseController(IUnitOfWork unitOfWork, IRepository<Expense> expRepo)
+       
+        public ExpenseController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            
 
         }
         [HttpGet]
         public IActionResult GetAll()
         {
-            var expense = _unitOfWork.ExpenseRepository.GetAll();
+            var expense = _unitOfWork.ExpenseRepository.GetAllExpense();
             return Ok(expense);
         }
         [HttpPost("delete")]
@@ -32,7 +32,7 @@ namespace ExpenseTracker.API.Controllers
             _unitOfWork.SaveChanges();
             return Ok();
         }
-        [HttpGet("id")]
+        [HttpGet("getbyid")]
         public IActionResult GET(int id)
         {
             var expense = _unitOfWork.ExpenseRepository.Get(id);

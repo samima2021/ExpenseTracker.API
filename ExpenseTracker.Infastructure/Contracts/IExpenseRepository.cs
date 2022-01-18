@@ -9,6 +9,6 @@ namespace ExpenseTracker.Infastructure.Contracts
 {
     public interface IExpenseRepository : IRepository<Expense>
     {
-
+        IList<ExpenseVModel> GetAllExpense();
     }
 }
