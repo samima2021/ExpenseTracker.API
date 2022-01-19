@@ -11,10 +11,27 @@ namespace ExpenseTracker.Infastructure.Repositories
 {
     public class ExpenseCategoryRepository : Repository<ExpenseCategory>, IExpenseCategoryRepository
     {
+        readonly protected DataContext _dataContext;
         public ExpenseCategoryRepository(DataContext context) : base(context)
         {
+            _dataContext = context;
 
         }
+
+        public IList<ExpenseVModel> GetAllExpenseCategory()
+        {
+            var list = (from c in _context.ExpenseCategories
+                      
+                        where c.IsRowDeleted.Equals(false)
+                        select new ExpenseVModel
+                        {
+                           
+                            CategoryName = c.CategoryName,
+                          
+                        }).ToList();
+            return list;
+        }
+
         public bool IsExpenseCategoryDuplicate(ExpenseCategory expenseCategory)
         {
             try

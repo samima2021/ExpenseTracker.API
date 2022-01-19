@@ -15,5 +15,6 @@ namespace ExpenseTracker.Infastructure.Contracts
         /// <param name="expenseCategory">ExpenseCategory</param>
         /// <returns>Boolean</returns>
         bool IsExpenseCategoryDuplicate(ExpenseCategory expenseCategory);
+        IList<ExpenseVModel> GetAllExpenseCategory();
     }
 }

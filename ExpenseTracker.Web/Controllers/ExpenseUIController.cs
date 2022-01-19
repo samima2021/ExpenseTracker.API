@@ -10,10 +10,11 @@ namespace ExpenseTracker.Web.Controllers
 {
     public class ExpenseUIController : Controller
     {
+        #region Index
         public async Task<IActionResult> Index()
         {
-            List<ExpenseDTO> dTOs = new List<ExpenseDTO>();
-            var expense = dTOs;
+            var expense = new List<ExpenseDTO>();
+
             using (var client = new HttpClient())
             {
                 var response = await client.GetAsync("http://localhost:24217/api/Expense");
@@ -23,21 +24,31 @@ namespace ExpenseTracker.Web.Controllers
             }
             return View(expense);
         }
-        public async Task<IActionResult> Create(string id)
+        #endregion
+
+        #region HttpGet-Create
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
-            var ExpenseCategory = new List<ExpenseCategoryDTO>();
+            var expenseCategory = new List<ExpenseCategoryDTO>();
             using (var client = new HttpClient())
             {
                 var response = await client.GetAsync("http://localhost:24217/api/ExpenseCategory");
 
                 string result = response.Content.ReadAsStringAsync().Result;
-                ExpenseCategory = JsonConvert.DeserializeObject<List<ExpenseCategoryDTO>>(result);
+                expenseCategory = JsonConvert.DeserializeObject<List<ExpenseCategoryDTO>>(result);
             }
+
             var expense = new ExpenseDTO();
-            expense.DropCategoryList = ExpenseCategory;
+            expense.CategoryDropDownList = expenseCategory;
+
             return View(expense);
         }
+        #endregion
+
+        #region HttpPost-Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ExpenseDTO expense)
         {
             var expenseJson = JsonConvert.SerializeObject(expense);
@@ -50,7 +61,12 @@ namespace ExpenseTracker.Web.Controllers
             }
             return RedirectToAction("Index");
         }
+        #endregion
+
+
+
         [HttpGet]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id)
         {
             var ExpenseCategory = new List<ExpenseCategoryDTO>();
@@ -66,10 +82,10 @@ namespace ExpenseTracker.Web.Controllers
                 expenseD = JsonConvert.DeserializeObject<ExpenseDTO>(result2);
             }
 
-            expenseD.DropCategoryList = ExpenseCategory;
+            expenseD.CategoryDropDownList = ExpenseCategory;
             return View(expenseD);
         }
-
+        #region HttpPost-Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ExpenseDTO expense)
@@ -85,6 +101,32 @@ namespace ExpenseTracker.Web.Controllers
             return RedirectToAction("Index");
         }
 
-       
+        #endregion
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var expense = new ExpenseDTO();
+            using (var client = new HttpClient())
+            {
+
+                var response = await client.GetAsync("http://localhost:24217/api/Expense/getbyid?id=" + id);
+                string result = response.Content.ReadAsStringAsync().Result;
+                expense = JsonConvert.DeserializeObject<ExpenseDTO>(result);
+            }
+            return View(expense);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(ExpenseDTO expense)
+        {
+            var expenseJson = JsonConvert.SerializeObject(expense);
+            using (var client = new HttpClient())
+            {
+                HttpContent httpContent = new StringContent(expenseJson, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("http://localhost:24217/api/Expense/delete", httpContent);
+
+                string result = response.Content.ReadAsStringAsync().Result;
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

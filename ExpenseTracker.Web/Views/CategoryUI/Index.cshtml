@@ -1,27 +1,23 @@
-﻿@model IEnumerable<ExpenseDTO>
+﻿@model IEnumerable<ExpenseCategoryDTO>
 @{
-	 ViewData["Title"] = "ExpenseList";
+	 ViewData["Title"] = "CategoryList";
 }
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://use.fontawesome.com/c7a575b4de.js"></script>
 <div class="row">
     <div class="col-12">
-        <h2>Expneses</h2>
+        <h2>Category</h2>
         <div class="d-flex justify-content-end mb-1">
-            <a asp-controller="ExpenseUI" asp-action="Create" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i>Create</a>
+            <a asp-controller="CategoryUI" asp-action="Create" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i>Create</a>
         </div>
     </div>
     <div class="col-12">
         <table style="width:100%;text-align:center;border-collapse:collapse;background-color:rgb(254, 249, 231);">
             <thead class="table-light bg-light">
-                <tr style="background-color:rgb(191, 201, 202 );">
+                <tr style="background-color:rgb(191, 201, 202);">
                     <th>SL</th>
-                    <th>ExpenseDate</th>
                     <th>
                         CategoryName
-                    </th>
-                    <th>
-                        Amount
                     </th>
                     <th>Action</th>
                 </tr>
@@ -33,12 +29,10 @@
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@data.ExpenseDate.ToString("yyyy-MM-dd")</td>
                         <td>@data.CategoryName</td>
-                        <td>@data.Amount.ToString("0.00")</td>
                         <td>
-                            <a class="btn btn-primary btn-sm" asp-controller="ExpenseUI" asp-action="Edit" asp-route-id="@data.ExpenseID"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
-                            <a class="btn btn-danger btn-sm" asp-controller="ExpenseUI" asp-action="Delete" asp-route-id="@data.ExpenseID"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</a>
+                            <a class="btn btn-primary btn-sm" asp-controller="CategoryUI" asp-action="Edit" asp-route-id="@data.CategoryID"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+                            <a class="btn btn-danger btn-sm" asp-controller="CategoryUI" asp-action="Delete" asp-route-id="@data.CategoryID"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</a>
                         </td>
                     </tr>
                     i++;
@@ -48,6 +42,7 @@
         </table>
     </div>
 </div>
+
 
 
 

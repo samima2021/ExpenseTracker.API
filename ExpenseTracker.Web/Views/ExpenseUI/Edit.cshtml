@@ -1,38 +1,58 @@
 ﻿@model ExpenseDTO
+
 @{
     ViewData["Title"] = "Edit";
 }
+<script src="https://use.fontawesome.com/c7a575b4de.js"></script>
+<h4>Edit Expense</h4>
 
-<h1>Edit</h1>
+<hr />
 
-
-
-<div class=""container>
-    <div class="row">
-        <div class="col-md-4">
-           <form asp-action="Create" method="post">
-    <input type="hidden" asp-for="ExpenseID" />
-    <input asp-for="Amount" />
-    <input asp-for="ExpenseDate" />
-    <select asp-for="CategoryID">
-        <option value="0">
-            select One
-        </option>
-        @foreach (var item in Model.DropCategoryList)
-        {
-            <option value="@item.CategoryID">
-                @item.CategoryName
-            </option>
-        }
-
-    </select>
-              
-    <button type="submit">Save</button>
-</form>
-        </div>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="ExpenseID" type="hidden" class="form-control" /> 
+                <input asp-for="DateCreated" type="hidden" class="form-control" />
+                <input asp-for="IsRowDeleted" type="hidden" class="form-control" /> 
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <select asp-for="CategoryID" class="form-control">
+                    <option value="">-- Select Category --</option>
+                    @foreach(var item in Model.CategoryDropDownList)
+                    {
+                        <option value="@item.CategoryID">
+                            @item.CategoryName
+                        </option>
+                    }
+                </select> 
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpenseDate" class="control-label"></label>
+                <input asp-for="ExpenseDate" class="form-control" />
+                <span asp-validation-for="ExpenseDate" class="text-danger"></span>
+            </div>   
+            <div class="form-group">
+                <button class="btn btn-primary btn-block " type="submit">
+                    <i class="fa fa-plus"></i>
+                    <span>Save Expense</span>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

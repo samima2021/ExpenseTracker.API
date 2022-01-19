@@ -25,19 +25,23 @@ namespace ExpenseTracker.API.Controllers
             return Ok(expense);
         }
         [HttpPost("delete")]
-        public IActionResult Delete([FromForm] int Id)
+        public IActionResult Delete([FromBody] Expense expense)
         {
-            var expense = _unitOfWork.ExpenseRepository.Get(Id);
-            _unitOfWork.ExpenseRepository.Delete(expense);
+            var expenseInDb = _unitOfWork.ExpenseRepository.Get(expense.ExpenseID)
+;
+            _unitOfWork.ExpenseRepository.Delete(expenseInDb);
             _unitOfWork.SaveChanges();
             return Ok();
         }
+
         [HttpGet("getbyid")]
         public IActionResult GET(int id)
         {
-            var expense = _unitOfWork.ExpenseRepository.Get(id);
+            var expense = _unitOfWork.ExpenseRepository.Get(id)
+;
             return Ok(expense);
         }
+
 
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody] Expense expense)

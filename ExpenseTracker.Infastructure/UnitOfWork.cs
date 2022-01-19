@@ -10,10 +10,15 @@ using System.Threading.Tasks;
 
 namespace ExpenseTracker.Infastructure
 {
+    /// <summary>
+    /// Implements IUnitOfWork interface.
+    /// </summary>
+
     public class UnitOfWork : IUnitOfWork
     {
         private IExpenseCategoryRepository expenseCategoryRepository;
         private IExpenseRepository expenseRepository;
+
         protected readonly DataContext dbcontext;
         public UnitOfWork(DataContext context)
         {

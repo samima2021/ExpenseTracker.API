@@ -9,17 +9,19 @@ namespace ExpenseTracker.Infastructure.Contracts
     public interface IUnitOfWork
     {
         /// <summary>
-        /// Save data to the database
+        /// Declare SaveChanges method
         /// </summary>
         void SaveChanges();
-        /// <summary>
-        /// Create properties for Expense categories
-        /// </summary>
-        IExpenseCategoryRepository ExpenseCategoryRepository { get; }
+
         /// <summary>
         /// Create properties for Expense
         /// </summary>
         IExpenseRepository ExpenseRepository { get; }
+
+        /// <summary>
+        /// Create properties for Expense categories
+        /// </summary>
+        IExpenseCategoryRepository ExpenseCategoryRepository { get; }
 
     }
 }

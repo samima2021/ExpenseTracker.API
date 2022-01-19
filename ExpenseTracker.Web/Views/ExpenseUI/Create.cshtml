@@ -18,7 +18,7 @@
                     <label asp-for="CategoryName" class="control-label"></label>
                      <select asp-for="CategoryID" class="form-control">
                       <option value="">-- Select Category --</option>
-                      @foreach (var item in Model.DropCategoryList)
+                      @foreach (var item in Model.CategoryDropDownList)
                       {
                           <option value="@item.CategoryID">
                                 @item.CategoryName

@@ -13,7 +13,7 @@ namespace ExpenseTracker.Domain.Entities
         /// Creation date of the row.
         /// </summary>
         [Column(TypeName = "smalldatetime")]
-        public DateTime? DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
         /// <summary>
         /// Last modification date of the row.
         /// </summary>
@@ -22,6 +22,6 @@ namespace ExpenseTracker.Domain.Entities
         /// <summary>
         /// Indicates the row is deleted or not.
         /// </summary>
-        public bool? IsRowDeleted { get; set; }
+        public bool IsRowDeleted { get; set; }
     }
 }
