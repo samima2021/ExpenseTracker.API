@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker.API", "ExpenseTracker.API\ExpenseTracker.API.csproj", "{72C508C0-A05D-4E88-B9A0-889EE5A02326}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.API", "ExpenseTracker.API\ExpenseTracker.API.csproj", "{72C508C0-A05D-4E88-B9A0-889EE5A02326}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExpenseTracker.Application", "ExpenseTracker.Application", "{D9FC22A0-E837-4B21-8E00-C603AECC0DC8}"
 EndProject
@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExpenseTracker.Business", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExpenseTracker.Data", "ExpenseTracker.Data", "{2770FF3B-A983-49C9-ABF9-BC4F6284D076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker.Domain", "ExpenseTracker.Domain\ExpenseTracker.Domain.csproj", "{532247A9-3E8D-4A44-A5D5-330AA6852AF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.Domain", "ExpenseTracker.Domain\ExpenseTracker.Domain.csproj", "{532247A9-3E8D-4A44-A5D5-330AA6852AF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker.Infastructure", "ExpenseTracker.Infastructure\ExpenseTracker.Infastructure.csproj", "{CFBF59BC-08E9-4F2E-99C1-698D44433B57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.Infastructure", "ExpenseTracker.Infastructure\ExpenseTracker.Infastructure.csproj", "{CFBF59BC-08E9-4F2E-99C1-698D44433B57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker.InfructureSqlServre", "ExpenseTracker.InfructureSqlServre\ExpenseTracker.InfructureSqlServre.csproj", "{17FF2BDE-92BB-4900-B578-EC1666532169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.InfructureSqlServre", "ExpenseTracker.InfructureSqlServre\ExpenseTracker.InfructureSqlServre.csproj", "{17FF2BDE-92BB-4900-B578-EC1666532169}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker.Web", "ExpenseTracker.Web\ExpenseTracker.Web.csproj", "{D327CDFF-1165-44AD-828A-846BD28FC318}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.Web", "ExpenseTracker.Web\ExpenseTracker.Web.csproj", "{D327CDFF-1165-44AD-828A-846BD28FC318}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,49 +1,90 @@
 ﻿@model IEnumerable<ExpenseCategoryDTO>
 @{
-	 ViewData["Title"] = "CategoryList";
+    ViewBag.Title = "Expense Category List";
 }
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://use.fontawesome.com/c7a575b4de.js"></script>
-<div class="row">
-    <div class="col-12">
-        <h2>Category</h2>
-        <div class="d-flex justify-content-end mb-1">
-            <a asp-controller="CategoryUI" asp-action="Create" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i>Create</a>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Expense Category List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="CategoryUI" asp-action="Create" class="btn btn-primary">
+                <i class="fa fa-plus"></i> &nbsp; Create Expense Category
+            </a>
         </div>
     </div>
-    <div class="col-12">
-        <table style="width:100%;text-align:center;border-collapse:collapse;background-color:rgb(254, 249, 231);">
-            <thead class="table-light bg-light">
-                <tr style="background-color:rgb(191, 201, 202);">
-                    <th>SL</th>
-                    <th>
-                        CategoryName
-                    </th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-               @{
-                   var i=1;
-                @foreach (var data in Model)
-                {
-                    <tr>
-                        <td>@i</td>
-                        <td>@data.CategoryName</td>
-                        <td>
-                            <a class="btn btn-primary btn-sm" asp-controller="CategoryUI" asp-action="Edit" asp-route-id="@data.CategoryID"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
-                            <a class="btn btn-danger btn-sm" asp-controller="CategoryUI" asp-action="Delete" asp-route-id="@data.CategoryID"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</a>
-                        </td>
-                    </tr>
-                    i++;
-                }
-                }
-            </tbody>
-        </table>
+
+    <br /><br />
+
+    <table class="table table-bordered table-striped" border="1" style="width:100%">
+        <thead class="table-info">
+            <tr class="text-center">
+                <th>SL</th>
+                <th>Category Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+         @{
+            var i = 1;
+            @foreach(var obj in Model)
+            {
+            <tr>
+                <td width="20%">@i</td>
+                <td width="40%">@obj.CategoryName</td>
+               
+                <td class="text-center" width="40%">
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="CategoryUI" asp-route-Id="@obj.CategoryID" asp-action="Edit" class="btn btn-outline-success mx-2">
+                            <i class="fa fa-pencil"></i>  
+                        </a>
+                        <a onclick="opendeletemodal('@obj.CategoryID')" class="btn btn-outline-danger mx-2">
+                            <i class="fa fa-trash-o"></i> 
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            i++;
+            }
+          }
+        </tbody>
+    </table>
+</div>
+
+<!--bootstra pop up confirmation dialog-->
+<div class="modal" tabindex="-1" role="dialog" id="deletemodal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Expense Category Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Delete" method="post">
+                <div class="modal-body">
+                    <p class="alert">Are you sure want to Delete?</p>
+                    <input type="hidden" name="CategoryID" id="categoryid"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-
-
-
-
+<script>
+   function opendeletemodal(id)
+ {
+        $('#categoryid').val(id)
+;
+        $('#deletemodal').modal('show');
+    }
+</script>

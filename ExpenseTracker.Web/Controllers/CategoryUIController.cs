@@ -101,26 +101,39 @@ namespace ExpenseTracker.Web.Controllers
         }
 
         #endregion
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var category = new ExpenseCategoryDTO();
-            using (var client = new HttpClient())
-            {
+        //[HttpGet]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    var category = new ExpenseCategoryDTO();
+        //    using (var client = new HttpClient())
+        //    {
 
-                var response = await client.GetAsync("http://localhost:24217/api/ExpenseCategory/getbyid?id=" + id);
-                string result = response.Content.ReadAsStringAsync().Result;
-                category = JsonConvert.DeserializeObject<ExpenseCategoryDTO>(result);
-            }
-            return View(category);
-        }
+        //        var response = await client.GetAsync("http://localhost:24217/api/ExpenseCategory/getbyid?id=" + id);
+        //        string result = response.Content.ReadAsStringAsync().Result;
+        //        category = JsonConvert.DeserializeObject<ExpenseCategoryDTO>(result);
+        //    }
+        //    return View(category);
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> Delete(ExpenseCategoryDTO categoryexpense)
+        //{
+        //    var categoryJson = JsonConvert.SerializeObject(categoryexpense);
+        //    using (var client = new HttpClient())
+        //    {
+        //        HttpContent httpContent = new StringContent(categoryJson, Encoding.UTF8, "application/json");
+        //        var response = await client.PostAsync("http://localhost:24217/api/ExpenseCategory/delete", httpContent);
+
+        //        string result = response.Content.ReadAsStringAsync().Result;
+        //    }
+        //    return RedirectToAction("Index");
+        //}
         [HttpPost]
-        public async Task<IActionResult> Delete(ExpenseCategoryDTO categoryexpense)
+        public async Task<IActionResult> Delete(ExpenseCategoryDTO dto)
         {
-            var categoryJson = JsonConvert.SerializeObject(categoryexpense);
+            var expenseJson = JsonConvert.SerializeObject(dto);
             using (var client = new HttpClient())
             {
-                HttpContent httpContent = new StringContent(categoryJson, Encoding.UTF8, "application/json");
+                HttpContent httpContent = new StringContent(expenseJson, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("http://localhost:24217/api/ExpenseCategory/delete", httpContent);
 
                 string result = response.Content.ReadAsStringAsync().Result;

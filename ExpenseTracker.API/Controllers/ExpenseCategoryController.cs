@@ -9,50 +9,56 @@ namespace ExpenseTracker.API.Controllers
     [ApiController]
     public class ExpenseCategoryController : ControllerBase
     {
-        public readonly IUnitOfWork  _unitOfWork;
-        public ExpenseCategoryController(IUnitOfWork unitOfWorl)
+        public readonly IUnitOfWork _unitOfWork;
+
+        public ExpenseCategoryController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWorl;
+            this._unitOfWork = unitOfWork;
         }
-        
+
         [HttpGet]
-       public  IActionResult GetAll()
+        public IActionResult GetAll()
         {
             var category = _unitOfWork.ExpenseCategoryRepository.GetAll();
 
             return Ok(category);
         }
+
         [HttpGet("getbyid")]
-        public IActionResult Get(int id)
+        public IActionResult GET(int id)
         {
             var category = _unitOfWork.ExpenseCategoryRepository.Get(id);
             return Ok(category);
         }
+
         [HttpPost]
-        public IActionResult SaveOrUpdate([FromBody] ExpenseCategory categoryexpense)
+        public IActionResult SaveOrUpdate([FromBody] ExpenseCategory expense)
         {
-            if (categoryexpense.CategoryID == 0)
+            if (expense.CategoryID == 0)
             {
-                var expensecategoryAdd = _unitOfWork.ExpenseCategoryRepository.Add(categoryexpense);
+                var categoryAdd = _unitOfWork.ExpenseCategoryRepository.Add(expense);
                 _unitOfWork.SaveChanges();
-                return Ok(expensecategoryAdd);
+                return Ok(categoryAdd);
             }
             else
             {
-                var categoryUp = _unitOfWork.ExpenseCategoryRepository.Update(categoryexpense);
+                var categoryUp = _unitOfWork.ExpenseCategoryRepository.Update(expense);
                 _unitOfWork.SaveChanges();
 
                 return Ok(categoryUp);
             }
         }
-        [HttpPost("delete")]
-        public IActionResult Delete([FromBody] ExpenseCategory categoryexpense)
-        {
-            var CategoryInDb = _unitOfWork.ExpenseCategoryRepository.Get(categoryexpense.CategoryID);
 
-            _unitOfWork.ExpenseCategoryRepository.Delete(CategoryInDb);
+        #region HttpPost-Delete
+        [HttpPost("delete")]
+        public IActionResult Delete([FromBody] ExpenseVModel category)
+        {
+            var categoryInDb = _unitOfWork.ExpenseCategoryRepository.Get(category.CategoryID);
+            _unitOfWork.ExpenseCategoryRepository.Delete(categoryInDb);
             _unitOfWork.SaveChanges();
+
             return Ok();
         }
+        #endregion
     }
 }
