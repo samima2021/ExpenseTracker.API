@@ -15,6 +15,9 @@ namespace ExpenseTracker.Domain.Entities
 
         public DateTime ExpenseDate { get; set; }
         public decimal Amount { get; set; }
+        [Required(ErrorMessage = "Please enter the CategoryName")]
+        [StringLength(60)]
+        [Display(Name = "Expense category")]
         public string CategoryName { get; set; }
     }
 }

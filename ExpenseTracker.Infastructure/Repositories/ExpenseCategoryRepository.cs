@@ -36,7 +36,7 @@ namespace ExpenseTracker.Infastructure.Repositories
         {
             try
             {
-                var categoryInDb = _context.ExpenseCategories.FirstOrDefault(c => c.CategoryName.ToLower() == expenseCategory.CategoryName.ToLower());
+                var categoryInDb = _context.ExpenseCategories.FirstOrDefault(c => c.CategoryName.ToLower().Replace(" ", "-") == expenseCategory.CategoryName.ToLower().Replace(" ","-"));
 
                 if (categoryInDb != null)
                 {

@@ -48,6 +48,25 @@
         </table>
     </div>
 </div>
+@*@section styles {
+    <link href="~/libs/datepicker/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="~/libs/jquery/jquery.min.js"></script>
+    <script src="~/libs/validation/jquery.validate.min.js"></script>
+    <script src="~/libs/validation/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/libs/datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script>
+    $(() => {
+        $("#from").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $("#to").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    })
+    </script>
+}*@
 
 
 

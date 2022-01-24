@@ -1,7 +1,9 @@
 ﻿using ExpenseTracker.Domain.Entities;
 using ExpenseTracker.Infastructure.Contracts;
+using ExpenseTracker.InfructureSqlServre;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ExpenseTracker.API.Controllers
 {
@@ -10,6 +12,7 @@ namespace ExpenseTracker.API.Controllers
     public class ExpenseCategoryController : ControllerBase
     {
         public readonly IUnitOfWork _unitOfWork;
+        private readonly DataContext _dataContext;
 
         public ExpenseCategoryController(IUnitOfWork unitOfWork)
         {
@@ -25,6 +28,7 @@ namespace ExpenseTracker.API.Controllers
         }
 
         [HttpGet("getbyid")]
+        [ValidateAntiForgeryToken]
         public IActionResult GET(int id)
         {
             var category = _unitOfWork.ExpenseCategoryRepository.Get(id);
@@ -36,9 +40,18 @@ namespace ExpenseTracker.API.Controllers
         {
             if (expense.CategoryID == 0)
             {
-                var categoryAdd = _unitOfWork.ExpenseCategoryRepository.Add(expense);
-                _unitOfWork.SaveChanges();
-                return Ok(categoryAdd);
+                var IsExist = _unitOfWork.ExpenseCategoryRepository.IsExpenseCategoryDuplicate(expense);
+                if (!IsExist)
+                {
+                    var categoryAdd = _unitOfWork.ExpenseCategoryRepository.Add(expense);
+                    _unitOfWork.SaveChanges();
+                    return Ok(categoryAdd);
+                }
+                else
+                {
+                    return BadRequest("Duplicate found");
+                }
+                
             }
             else
             {
@@ -62,3 +75,4 @@ namespace ExpenseTracker.API.Controllers
         #endregion
     }
 }
+
