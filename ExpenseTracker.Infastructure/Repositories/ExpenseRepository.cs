@@ -33,6 +33,7 @@ namespace ExpenseTracker.Infastructure.Repositories
                         }).ToList();
             return list;
         }
+       
 
     }
 }

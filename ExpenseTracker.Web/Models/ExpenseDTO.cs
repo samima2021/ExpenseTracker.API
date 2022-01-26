@@ -23,5 +23,6 @@ namespace ExpenseTracker.Web.Models
         public string CategoryName { get; set; }
         public List<ExpenseCategoryDTO> CategoryDropDownList { get; set; }
         public virtual ExpenseCategoryDTO ExpenseCategory { get; set; }
+        
     }
 }

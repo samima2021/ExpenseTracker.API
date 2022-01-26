@@ -12,7 +12,8 @@ namespace ExpenseTracker.API.Controllers
     public class ExpenseCategoryController : ControllerBase
     {
         public readonly IUnitOfWork _unitOfWork;
-        private readonly DataContext _dataContext;
+
+        private readonly DataContext _context;
 
         public ExpenseCategoryController(IUnitOfWork unitOfWork)
         {
@@ -28,49 +29,80 @@ namespace ExpenseTracker.API.Controllers
         }
 
         [HttpGet("getbyid")]
-        [ValidateAntiForgeryToken]
         public IActionResult GET(int id)
         {
-            var category = _unitOfWork.ExpenseCategoryRepository.Get(id);
+            var category = _unitOfWork.ExpenseCategoryRepository.Get(id)
+;
             return Ok(category);
         }
 
+        #region SaveOrUpdate
         [HttpPost]
-        public IActionResult SaveOrUpdate([FromBody] ExpenseCategory expense)
+        public IActionResult SaveOrUpdate([FromBody] ExpenseCategory category)
         {
-            if (expense.CategoryID == 0)
+            var IsExist = _unitOfWork.ExpenseCategoryRepository.IsExpenseCategoryDuplicate(category);
+            if (category.CategoryID == 0)
             {
-                var IsExist = _unitOfWork.ExpenseCategoryRepository.IsExpenseCategoryDuplicate(expense);
                 if (!IsExist)
                 {
-                    var categoryAdd = _unitOfWork.ExpenseCategoryRepository.Add(expense);
+                    var categoryAdd = _unitOfWork.ExpenseCategoryRepository.Add(category);
                     _unitOfWork.SaveChanges();
+                    //TempData["AlertMessage"] = "Expense Created Successfully !";
                     return Ok(categoryAdd);
                 }
                 else
                 {
-                    return BadRequest("Duplicate found");
+                    return BadRequest("Duplicate Found!");
                 }
-                
+
             }
             else
             {
-                var categoryUp = _unitOfWork.ExpenseCategoryRepository.Update(expense);
-                _unitOfWork.SaveChanges();
-
-                return Ok(categoryUp);
+                if (!IsExist)
+                {
+                    var categoryUp = _unitOfWork.ExpenseCategoryRepository.Update(category);
+                    _unitOfWork.SaveChanges();
+                    return Ok(categoryUp);
+                }
+                else
+                {
+                    return BadRequest("Duplicate Found!");
+                }
+               
             }
         }
+        #endregion
 
-        #region HttpPost-Delete
+        //#region HttpPost-Delete
+        //[HttpPost("delete")]
+        //public IActionResult Delete([FromBody] ExpenseCategoryVM category)
+        //{
+        //    var categoryInDb = _unitOfWork.ExpenseCategoryRepository.Get(category.CategoryID);
+        //    _unitOfWork.ExpenseCategoryRepository.Delete(categoryInDb);
+        //    _unitOfWork.SaveChanges();
+
+        //    return Ok();
+        //}
+        //#endregion
+
+
+        #region Delete
         [HttpPost("delete")]
-        public IActionResult Delete([FromBody] ExpenseVModel category)
+        public IActionResult Delete([FromBody] ExpenseCategoryVM cat)
         {
-            var categoryInDb = _unitOfWork.ExpenseCategoryRepository.Get(category.CategoryID);
-            _unitOfWork.ExpenseCategoryRepository.Delete(categoryInDb);
-            _unitOfWork.SaveChanges();
+            var IsIdHas = _unitOfWork.ExpenseCategoryRepository.IsDeleteID(cat.CategoryID);
+            if (!IsIdHas)
+            {
+                var expenseInDb = _unitOfWork.ExpenseCategoryRepository.Get(cat.CategoryID);
+                _unitOfWork.ExpenseCategoryRepository.Delete(expenseInDb);
+                _unitOfWork.SaveChanges();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("You can't Delete this!");
+            }
 
-            return Ok();
         }
         #endregion
     }

@@ -51,5 +51,14 @@ namespace ExpenseTracker.Infastructure.Repositories
                 throw;
             }
         }
+        public bool IsDeleteID(int categoryId)
+        {
+            var DeleteID = _context.Expenses.FirstOrDefault(c => c.CategoryID == categoryId && !c.IsRowDeleted);
+            if (DeleteID != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

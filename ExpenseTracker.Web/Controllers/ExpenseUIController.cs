@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text;
 
+
+using System;
+using PagedList;
+using System.Linq;
+
 namespace ExpenseTracker.Web.Controllers
 {
     public class ExpenseUIController : Controller
     {
         #region Index
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int currentPageIndex)
         {
             var expense = new List<ExpenseDTO>();
 
@@ -21,8 +26,10 @@ namespace ExpenseTracker.Web.Controllers
 
                 string result = response.Content.ReadAsStringAsync().Result;
                 expense = JsonConvert.DeserializeObject<List<ExpenseDTO>>(result);
+                
             }
             return View(expense);
+           
         }
         #endregion
 
@@ -59,6 +66,7 @@ namespace ExpenseTracker.Web.Controllers
 
                 string result = response.Content.ReadAsStringAsync().Result;
             }
+            TempData["Success"] = "Data Created Successful";
             return RedirectToAction("Index");
         }
         #endregion
@@ -98,6 +106,7 @@ namespace ExpenseTracker.Web.Controllers
 
                 string result = response.Content.ReadAsStringAsync().Result;
             }
+            TempData["Success"] = "Data Updated Successful";
             return RedirectToAction("Index");
         }
 
@@ -126,6 +135,7 @@ namespace ExpenseTracker.Web.Controllers
 
                 string result = response.Content.ReadAsStringAsync().Result;
             }
+            TempData["Success"] = "Data Deleted Successful";
             return RedirectToAction("Index");
         }
     }
