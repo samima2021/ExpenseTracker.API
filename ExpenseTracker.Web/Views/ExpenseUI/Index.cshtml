@@ -1,8 +1,14 @@
-﻿@model IEnumerable<ExpenseDTO>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<ExpenseDTO>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
 @{
 	 ViewData["Title"] = "ExpenseList";
 }
 <partial name="_Notification" />
+<nav aria-label="Suppliers navigation example">
+        <vc:pager paging-list="@Model" />
+    </nav>
+
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://use.fontawesome.com/c7a575b4de.js"></script>

@@ -12,6 +12,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="5.0.8" />
     <PackageReference Include="PagedList" Version="1.17.0" />
+    <PackageReference Include="ReflectionIT.Mvc.Paging" Version="5.0.0" />
     <PackageReference Include="Sakura.AspNetCore.Mvc.PagedList" Version="3.0.2" />
   </ItemGroup>
 
