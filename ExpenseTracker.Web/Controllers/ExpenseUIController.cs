@@ -11,6 +11,7 @@ using System;
 using PagedList;
 using System.Linq;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.AspNetCore.Routing;
 
 namespace ExpenseTracker.Web.Controllers
 {
@@ -27,15 +28,13 @@ namespace ExpenseTracker.Web.Controllers
 
         //        string result = response.Content.ReadAsStringAsync().Result;
         //        expense = JsonConvert.DeserializeObject<List<ExpenseDTO>>(result);
-                
+
         //    }
         //    return View(expense);
-           
-        //}
-        public async Task<IActionResult> Index(int pageIndex = 1)
-        {
-           
 
+        //}
+        public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "CategoryName")
+        {
             using (var client = new HttpClient())
             {
                 var response = await client.GetAsync("http://localhost:24217/api/Expense");
@@ -43,10 +42,22 @@ namespace ExpenseTracker.Web.Controllers
                 string result = response.Content.ReadAsStringAsync().Result;
                 var expense = JsonConvert.DeserializeObject<List<ExpenseDTO>>(result);
                 expense = expense.OrderBy(i => i.ExpenseID).ToList();
-                var pagedExpense = PagingList.Create(expense,2, pageIndex);
+
+
+                if (!string.IsNullOrWhiteSpace(filter))
+                {
+
+                    expense = expense.Where(p => p.CategoryName.Contains(filter)).ToList();
+
+                }
+                var pagedExpense = PagingList.Create(expense, 3, pageIndex, sortExpression, "CompanyName");
+
+                pagedExpense.RouteValue = new RouteValueDictionary {
+                { "filter", filter}
+                };
+
                 return View(pagedExpense);
             }
-            
         }
         #endregion
 

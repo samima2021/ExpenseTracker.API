@@ -1,7 +1,10 @@
 ﻿using ExpenseTracker.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
+using ReflectionIT.Mvc.Paging;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,21 +14,48 @@ namespace ExpenseTracker.Web.Controllers
     public class CategoryUIController : Controller
     {
         #region Index
-    
-        public async Task<IActionResult> Index()
-        {
-            var category = new List<ExpenseCategoryDTO>();
 
+        //public async Task<IActionResult> Index()
+        //{
+        //    var category = new List<ExpenseCategoryDTO>();
+
+        //    using (var client = new HttpClient())
+        //    {
+        //        var response = await client.GetAsync("http://localhost:24217/api/ExpenseCategory");
+
+        //        string result = response.Content.ReadAsStringAsync().Result;
+        //        category = JsonConvert.DeserializeObject<List<ExpenseCategoryDTO>>(result);
+        //    }
+        //    TempData["Success"] = "Data Created Successful";
+        //    return View(category);
+        //}
+        public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "CategoryName")
+        {
             using (var client = new HttpClient())
             {
                 var response = await client.GetAsync("http://localhost:24217/api/ExpenseCategory");
 
                 string result = response.Content.ReadAsStringAsync().Result;
-                category = JsonConvert.DeserializeObject<List<ExpenseCategoryDTO>>(result);
+                var category = JsonConvert.DeserializeObject<List<ExpenseCategoryDTO>>(result);
+                category = category.OrderBy(i => i.ExpenseID).ToList();
+
+
+                if (!string.IsNullOrWhiteSpace(filter))
+                {
+
+                    category = category.Where(p => p.CategoryName.Contains(filter)).ToList();
+
+                }
+                var pagedExpense = PagingList.Create(category, 3, pageIndex, sortExpression, "CompanyName");
+
+                pagedExpense.RouteValue = new RouteValueDictionary {
+                { "filter", filter}
+                };
+
+                return View(pagedExpense);
             }
-            return View(category);
         }
-       
+
         #endregion
         #region HttpGet-Create
         [HttpGet]
@@ -59,6 +89,7 @@ namespace ExpenseTracker.Web.Controllers
                 }
 
             }
+            TempData["Success"] = "Data Updated Successful";
             return RedirectToAction("Index");
         }
         #endregion
@@ -126,6 +157,7 @@ namespace ExpenseTracker.Web.Controllers
                     return RedirectToAction("Index");
                 }
             }
+            TempData["Success"] = "Data Deleted Successful";
             return RedirectToAction("Index");
         }
         #endregion
